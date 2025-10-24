@@ -2,6 +2,7 @@ const express = require("express");
 const cors = require("cors");
 const connectDB = require("./config");
 const User = require("./models/User");
+require("dotenv").config(); // load environment variables
 
 // Routes
 const productRoutes = require("./routes/productRoutes");
@@ -15,8 +16,8 @@ const PORT = process.env.PORT || 5000;
 app.use(cors());
 app.use(express.json());
 
-// Connect to MongoDB
-connectDB();
+// Connect to MongoDB using environment variable
+connectDB(process.env.DB_URL); // make sure your connectDB function accepts a URL parameter
 
 // API routes
 app.use("/api/products", productRoutes);
@@ -30,5 +31,5 @@ app.get("/", (req, res) => {
 
 // Start server
 app.listen(PORT, () => {
-  console.log(`Server running on http://localhost:${PORT}`);
+  console.log(`Server running on port ${PORT}`);
 });
